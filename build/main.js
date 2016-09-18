@@ -20762,6 +20762,16 @@ module.exports = require('./lib/React');
 },{"./lib/React":53}],172:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
+var reactClass = require('./components/ReactComponentState');
+var TimerExample = require('./components/Timer');
+
+var reactComponentElement = React.createElement(reactClass);
+ReactDOM.render(reactComponentElement, document.getElementById('react-application'));
+
+ReactDOM.render(React.createElement(TimerExample, { start: Date.now() }), document.getElementById('timer'));
+
+},{"./components/ReactComponentState":173,"./components/Timer":174,"react":171,"react-dom":27}],173:[function(require,module,exports){
+var React = require('react');
 
 var ReactClass = React.createClass({
 	displayName: 'ReactClass',
@@ -20793,12 +20803,47 @@ var ReactClass = React.createClass({
 
 module.exports = ReactClass;
 
-},{"react":171,"react-dom":27}],173:[function(require,module,exports){
+},{"react":171}],174:[function(require,module,exports){
 var React = require('react');
-var ReactDOM = require('react-dom');
-var reactClass = require('./ReactComponentState2');
 
-var reactComponentElement = React.createElement(reactClass);
-ReactDOM.render(reactComponentElement, document.getElementById('react-application'));
+var TimerExample = React.createClass({
+    displayName: 'TimerExample',
 
-},{"./ReactComponentState2":172,"react":171,"react-dom":27}]},{},[173]);
+
+    getInitialState: function () {
+        return { elapsed: 0 };
+    },
+
+    componentDidMount: function () {
+        this.timer = setInterval(this.tick, 50);
+    },
+
+    componentWillUnmount: function () {
+        clearInterval(this.timer);
+    },
+
+    tick: function () {
+        this.setState({ elapsed: new Date() - this.props.start });
+    },
+
+    render: function () {
+        var elapsed = Math.round(this.state.elapsed / 100);
+        var seconds = (elapsed / 10).toFixed(1);
+        return React.createElement(
+            'p',
+            null,
+            'This example was started ',
+            React.createElement(
+                'b',
+                null,
+                seconds,
+                ' seconds'
+            ),
+            ' ago.'
+        );
+    }
+});
+
+module.exports = TimerExample;
+
+},{"react":171}]},{},[172]);
