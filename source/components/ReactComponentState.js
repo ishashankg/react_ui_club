@@ -15,14 +15,19 @@ var ReactClass = React.createClass({
 	},
 
 	render : function(){
-		var headerElement = React.createElement('h1',{className:'header', key:'header'}, this.state.title);
-		var buttonElement = React.createElement('button',{className:'btn btn-default', onClick:this.handleClick,
-							key:'button'}, 'Toggle header');
 		if(this.state.isHeaderHidden){
-			return React.createElement('div', null, [buttonElement]);
+			return (
+					<div>
+							<input type="button" class='btn btn-default' onClick={this.handleClick} value='Toggle Header'></input>
+					</div>
+			);
 		}
-
-		return React.createElement('div', null, [buttonElement, headerElement]);
+		return (
+			<div>
+				<h1 class='header'>{this.state.title}</h1>
+				<input type="button" class='btn btn-default' onClick={this.handleClick} value='Toggle Header'></input>
+			</div>
+		);
 	}
 });
 
