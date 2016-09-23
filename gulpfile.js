@@ -5,7 +5,7 @@ var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 
-gulp.task('default', function(){
+gulp.task('transform', function(){
 	return browserify('./source/app.js')
 			.transform(babelify.configure({
 				presets:['react']
@@ -15,3 +15,10 @@ gulp.task('default', function(){
 			.pipe(streamify(uglify()))
 			.pipe(gulp.dest('./build/'));
 });
+
+gulp.task('copy-html',['transform'], function(){
+		gulp.src('./source/index.html')
+		.pipe(gulp.dest('./build/'));
+});
+
+gulp.task('default',['copy-html']);
